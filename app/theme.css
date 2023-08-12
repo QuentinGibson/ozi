@@ -37,3 +37,38 @@
 		transform: scale3d(0.5,0.5,1);
 	}
 }
+
+.intro {
+	display: grid;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	align-content: space-between;
+	justify-items: center;
+	overflow: hidden;
+	pointer-events: none;
+	grid-template-rows: repeat(5, min-content);
+	grid-template-areas: 'top' 'mid-top' 'center' 'mid-bottom' 'bottom';
+}
+
+.intro__title {	
+	text-transform: uppercase;
+	font-weight: 400;
+	margin: 0 0.5rem;
+	overflow: hidden;
+	position: relative;
+	font-size: var(--font-size-typo);
+	white-space: nowrap;
+	will-change: transform;
+}
+
+.intro__title--large {
+	transform: scale(2.3685);
+}
+
+
+.intro__center {
+	grid-area: center;
+}
