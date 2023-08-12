@@ -9,19 +9,21 @@ import Splitter from "~/components/Splitter";
 export const meta: V2_MetaFunction = () => [{ title: "Remix Notes" }];
 
 export default function Index() {
-  const [isLoading, setIsLoading] = useState(true) 
+  const [state, setState] = useState<string>("loading") 
   const user = useOptionalUser();
   useEffect(() => {
     setTimeout(() => {
-      setIsLoading(false)
+      setState('intro')
     },1000)
   })
   return (
-    <main className={clsx( isLoading && 'loading' )}>
+    <main className={clsx( state === 'loading' && 'loading' )}>
       <div className="intro h-screen bg-black">
-        <div className="h-full w-full flex justify-center items-center text-white">
-          <Splitter word="Summer 22"/>
+        {state === 'intro' && 
+          <div className="h-full w-full flex justify-center items-center text-white">
+          <Splitter word="DOPE"/>
         </div>
+      }
       </div>
     </main>
   );
