@@ -72,3 +72,12 @@
 .intro__center {
 	grid-area: center;
 }
+
+.intro__bottom {
+  grid-area: bottom;
+}
+
+.intro__top {
+  grid-area: top;
+}
+
