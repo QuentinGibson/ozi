@@ -16,8 +16,8 @@ export default function Index() {
     },1000)
   })
   return (
-    <main className={clsx( state === 'loading' && 'loading' )}>
-      <div className="intro h-screen bg-black">
+    <main className={clsx([state === 'loading' && 'loading'])}>
+      <div className="h-screen bg-black">
         {state === 'intro' && 
           <div className="h-full w-full flex justify-center items-center text-white">
             <Intro/>
