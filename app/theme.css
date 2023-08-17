@@ -81,3 +81,9 @@
   grid-area: top;
 }
 
+@font-face {
+  font-family: 'Squada';
+  src: url(/squada/SquadaOne-Regular.ttf) format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}

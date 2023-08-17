@@ -6,6 +6,9 @@ export default {
     extend: {
       gridTemplateRows: {
         "intro": "repeat(5, min-content)"
+      },
+      fontFamily: {
+        sans: ["Squada", "sans-serif"]
       }
     },
   },

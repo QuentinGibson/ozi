@@ -1,10 +1,10 @@
-import { ReactElement, RefObject, forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { ReactElement, RefObject, forwardRef, useImperativeHandle, useRef } from "react";
 import { SplitChars, Timeline, Tween } from "react-gsap";
 
 interface SplitterTargetRef {
-  top: RefObject<HTMLHeadingElement>
-  center: RefObject<HTMLHeadingElement>
-  bottom: RefObject<HTMLHeadingElement>
+  top: RefObject<ReactElement[]>
+  center: RefObject<ReactElement[]>
+  bottom: RefObject<ReactElement[]>
   div1: RefObject<ReactElement[]>
   div2: RefObject<ReactElement[]>
 }
@@ -13,9 +13,9 @@ const SplitterTargets = forwardRef<SplitterTargetRef>((_props, ref) => {
   {
     const div1 = useRef<ReactElement[]>([])
     const div2 = useRef<ReactElement[]>([])
-    const top = useRef<HTMLHeadingElement>(null)
-    const center = useRef<HTMLHeadingElement>(null)
-    const bottom = useRef<HTMLHeadingElement>(null)
+    const top = useRef<ReactElement[]>([])
+    const center = useRef<ReactElement[]>([])
+    const bottom = useRef<ReactElement[]>([])
     useImperativeHandle(ref, () => ({
       div1,
       div2,
@@ -25,8 +25,8 @@ const SplitterTargets = forwardRef<SplitterTargetRef>((_props, ref) => {
     }));
     return (
       <>
-        <div className="relative" style={{ gridArea: "center" }}>
-          <h2 className="absolute overflow-hidden">
+        <div className="relative w-full flex justify-center" style={{ gridArea: "center" }}>
+          <h2 className="absolute overflow-hidden text-5xl">
             <SplitChars
               ref={(charRef: ReactElement) => div1.current.push(charRef)}
               wrapper={
@@ -36,7 +36,7 @@ const SplitterTargets = forwardRef<SplitterTargetRef>((_props, ref) => {
               DOPE 23
             </SplitChars>
           </h2>
-          <h2 className="">
+          <h2 className="overflow-hidden text-4xl">
             <SplitChars
               ref={(charRef: ReactElement) => div2.current.push(charRef)}
               wrapper={<span className="inline-block" />}
@@ -46,9 +46,22 @@ const SplitterTargets = forwardRef<SplitterTargetRef>((_props, ref) => {
           </h2>
         </div>
 
-        <h2 ref={center} id="center-title-repeated" className="intro__title intro__center" >DOPE 23</h2>
-        <h2 ref={top} id="top-title" className="intro__title intro__top" >DOPE 23</h2>
-        <h2 ref={bottom} id="bottom-title" className="intro__title intro__bottom" >DOPE 23</h2>
+        <h2  id="top-title" className="overflow-hidden intro__top text-5xl" >
+          <SplitChars
+            ref={(charRef: ReactElement) => top.current.push(charRef)}
+            wrapper={<span className="inline-block" />}
+          >
+            DOPE 23
+          </SplitChars>
+        </h2>
+        <h2  id="bottom-title" className="overflow-hidden intro__bottom relative text-3xl" >
+          <SplitChars
+            ref={(charRef: ReactElement) => bottom.current.push(charRef)}
+            wrapper={<span className="inline-block" />}
+          >
+            DOPE 23
+          </SplitChars>
+        </h2>
       </>
     )
   }
@@ -57,33 +70,11 @@ const SplitterTargets = forwardRef<SplitterTargetRef>((_props, ref) => {
 
 
 export default function Splitter() {
-  const splitter = useRef<SplitterTargetRef | null>(null)
-  const [topOffset, setTopOffset] = useState<number>(0)
-  const [bottomOffset, setBottomOffset] = useState<number>(0)
-
-  useLayoutEffect(() => {
-    const targets = splitter.current
-    const currentTopOffset = targets?.top.current?.offsetTop
-    const currentCenterOffset = targets?.center.current?.offsetTop
-    const currentBottomOffset = targets?.bottom.current?.offsetTop
-
-    if (typeof currentTopOffset === "number" && typeof currentCenterOffset === "number") {
-      setTopOffset(currentTopOffset - currentCenterOffset)
-    }
-    if (typeof currentBottomOffset === "number" && typeof currentCenterOffset === "number") {
-      setBottomOffset(currentBottomOffset - currentCenterOffset)
-    }
-
-  }, [splitter])
-
-  const tweenOffsetFunction = useMemo(() =>
-    (pos: number) => pos % 2 ? bottomOffset : topOffset
-    , [bottomOffset, topOffset])
 
   return (
     <>
       <Timeline
-        target={<SplitterTargets ref={splitter} />}
+        target={<SplitterTargets />}
         stagger={0.4}
         delay={0.7}
       >
@@ -100,15 +91,35 @@ export default function Splitter() {
           to={{ y: 0, opacity: 1 }}
         />
         <Tween
-          target="div2"
-          delay={0.2}
-          duration={0.3}
-          to={{ y: tweenOffsetFunction }}
+          target="top"
+          position={2}
+          from={{ y: (pos: number) => pos % 2 ? "100%" : "-100%", opacity: 0 }}
+          to={{ y: 0, opacity: 1 }}
         />
         <Tween
+          target="bottom"
+          position={2}
+          from={{ y: (pos: number) => pos % 2 ? "100%" : "-100%", opacity: 0 }}
+          to={{ y: 0, opacity: 1 }}
+        />
+
+        <Tween
           target="div2"
-          duration={0.1}
-          to={{ opacity: 1 }}
+          duration={0.7}
+          position={3}
+          to={{ opacity: 0 }}
+        />
+        <Tween
+          target="top"
+          duration={0.7}
+          position={3}
+          to={{ opacity: 0 }}
+        />
+        <Tween
+          target="bottom"
+          duration={0.7}
+          position={3}
+          to={{ opacity: 0 }}
         />
       </Timeline>
     </>
