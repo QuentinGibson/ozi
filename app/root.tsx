@@ -12,12 +12,12 @@ import {
 
 import { getUser } from "~/session.server";
 import stylesheet from "~/tailwind.css";
-import themeStyles from "~/theme.css"
+import themeStyles from "~/theme.css";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
   { rel: "stylesheet", href: themeStyles },
-  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref } ] : []),
+  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
 export const loader = async ({ request }: LoaderArgs) => {
@@ -26,7 +26,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export default function App() {
   return (
-    <html lang="en" className="">
+    <html lang="en" className="bg-black">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
