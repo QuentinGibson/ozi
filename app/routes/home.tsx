@@ -1,11 +1,12 @@
 import { Link } from "@remix-run/react";
 import clsx from "clsx";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { BsGithub } from "react-icons/bs";
 import Past from "~/components/Past";
 export default function HomeRoute() {
   const quentingithuburl = "https://github.com/QuentinGibson";
   const h1 = useRef<HTMLHeadingElement | null>(null);
+  const [backgroundImage, setBackgroundImage] = useState("");
 
   const setToBlack = () => {
     if (h1.current) {
@@ -73,8 +74,8 @@ export default function HomeRoute() {
           ref={h1}
           className={clsx([
             "font-outline-2 static-heading -z-40  text-[30vw] text-transparent",
-            false && "bg-[url('/tv-static.gif')]",
-            false &&
+            backgroundImage === "image" && "bg-[url('/tv-static.gif')]",
+            backgroundImage === "gradient" &&
               "bg-gradient-to-b from-red-600 from-20% via-yellow-500 to-green-500",
           ])}
         >
@@ -130,6 +131,25 @@ export default function HomeRoute() {
           onClick={setToBlack}
         >
           Black
+        </button>
+
+        <button
+          className="bg-gray-700 px-4 py-2 text-white"
+          onClick={() => {
+            setHeaderColor("transparent");
+            setBackgroundImage("gradient");
+          }}
+        >
+          Gradient
+        </button>
+        <button
+          className="bg-gray-700 px-4 py-2 text-white"
+          onClick={() => {
+            setHeaderColor("transparent");
+            setBackgroundImage("image");
+          }}
+        >
+          Image
         </button>
         <button
           className="bg-gray-700 px-4 py-2 text-white"
